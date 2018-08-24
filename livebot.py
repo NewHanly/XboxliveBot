@@ -1,5 +1,3 @@
-#! /usr/bin/python3
-
 import logging
 import mysql
 from telegram.ext import Updater
@@ -17,15 +15,10 @@ def helpmsg(bot, update):
 
 def searchid(bot, update, args):
 	try:
-		msg = ''.join(args)
-		if(len(msg) > 0):
-			msg = msg[1:]
-			liveid = mysql.searchname(msg)
-		else:
-			user = update.message.reply_to_message.from_user
-			liveid = mysql.searchindb(user.id)
+		user = update.message.reply_to_message.from_user
+		liveid = mysql.searchindb(user.id)
 		whose = 'ID: '
-	except:
+	except AttributeError:
 		user = update.message.from_user
 		liveid = mysql.searchindb(user.id)
 		whose = 'Your ID: '
@@ -35,16 +28,15 @@ def searchid(bot, update, args):
 
 def changeid(bot, update, args):
 	userid = update.message.from_user.id
-	username = update.message.from_user.username
 	msg = ''.join(args)
 	if(len(msg) <= 0):
 		bot.sendMessage(chat_id=update.message.chat_id, reply_to_message_id = update.message.message_id, text = 'Please tell me your new id')
 		return
 	if(mysql.searchindb(userid) != -1):
-		mysql.changeondb(userid, msg, username)
+		mysql.changeondb(userid, msg)
 		bot.sendMessage(chat_id=update.message.chat_id, reply_to_message_id = update.message.message_id, text = 'updated')
 	else:
-		mysql.inserttodb(userid, msg, username)
+		mysql.inserttodb(userid, ''.join(args))
 		bot.sendMessage(chat_id=update.message.chat_id, reply_to_message_id = update.message.message_id, text = 'changed')
 
 start_handler = CommandHandler('start',start)
