@@ -3,7 +3,7 @@
 Take pulic notes for telrgram users 
 ## Base
 ```
-$ pip install python-telegram-bot --upgrade
+$ pip3 install python-telegram-bot
 ```
 ## Start
-run livebot.py
+python3 livebot.py
