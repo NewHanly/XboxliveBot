@@ -7,4 +7,6 @@ $ pip3 install python-telegram-bot
 $ pip3 install pymysql
 ```
 ## Start
-python3 livebot.py
+```
+$ python3 livebot.py
+```
